@@ -1,0 +1,348 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Write</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="logo.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body{
+            background-color: rgb(34, 35, 36);
+        }
+
+        .smoke-screen{
+            background-color: rgb(50, 51, 53);
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+        }
+
+        .top-bar{
+            background-color: rgb(50, 51, 53);
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 7.5%;
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        .main{
+            border: solid dodgerblue;
+            width: 85%;
+            height: 87%;
+            position: absolute;
+            bottom: 2%;
+            right: 1.25%;
+            background-color: white;
+        }
+
+        .tag-bar{
+            background-color: rgb(40, 42, 44);
+            position: absolute;
+            top: 7.5%;
+            left: 0%;
+            height: 92.5%;
+            width: 12.5%;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .drag{
+            width: 80%;
+            height: 3%;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+
+        .box{
+            color: white;
+            vertical-align: middle;
+            background: transparent;
+            font-size: 150%;
+            resize: none;
+            height: 50%;
+            text-align: center;
+            font-family: arial;
+            border: solid white 1px;
+        }
+
+        .boxx{
+            color: white;
+            vertical-align: middle;
+            background: transparent;
+            font-size: 150%;
+            resize: none;
+            height: 5%;
+            text-align: center;
+            font-family: arial;
+            border: solid white 1px;
+        }
+
+        .boxbtn{
+            color: white;
+            vertical-align: middle;
+            background: transparent;
+            font-size: 100%;
+            resize: none;
+            height: 50%;
+            width: 12.5%;
+            text-align: center;
+            font-family: arial;
+            border: 1px solid white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body onclick="select(this.id)">
+    <div id="change" class="top-bar"></div>
+
+    <div id="testing" style="display: none;"></div>
+
+    <div class="tag-bar"><span style="cursor: pointer; font-size: 75%;font-family: arial; color: whitesmoke;">Tags <i class="fa fa-caret-down"></i><hr></span>
+        
+        <button onclick="h1()" class="drag">H1</button>
+            
+        
+    
+    </div>
+
+    <div id="canvas" class="main"></div>
+
+    <script>
+
+    function select(e){
+        e = e || window.event;
+        e = e.target || e.srcElement;
+        if(e.id.length == 12){
+            document.getElementById("change").innerHTML = "<p style='display: none;' id='currentid'>" + e.id + "<p>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='background...' class='box' onkeyup='change(`back`, "+e.id+")' onkeydown='change(`back`, "+e.id+")' id='back'>"+ document.getElementById(e.id).style.background + "</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='backgroundSize...' class='box' onkeyup='change(`backs`, "+e.id+")' onkeydown='change(`backs`, "+e.id+")' id='backs'>"+ document.getElementById(e.id).style.backgroundSize + "</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='backgroundColor...' class='box' onkeyup='change(`backColor`, "+e.id+")' onkeydown='change(`backColor`, "+e.id+")' id='backColor'>"+ document.getElementById(e.id).style.backgroundColor + "</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='color...' class='box' onkeyup='change(`color`, "+e.id+")' onkeydown='change(`color`, "+e.id+")' id='color'>"+ document.getElementById(e.id).style.color +"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='Text...' class='box' onkeyup='change(`text`, "+e.id+")' onkeydown='change(`text`, "+e.id+")' id='text'>"+document.getElementById(e.id).innerText+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='textAlign...' class='box' onkeyup='change(`textalign`, "+e.id+")' onkeydown='change(`textalign`, "+e.id+")' id='textalign'>"+document.getElementById(e.id).style.textAlign+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='width...' class='box' onkeyup='change(`width`, "+e.id+")' onkeydown='change(`width`, "+e.id+")' id='width'>"+ document.getElementById(e.id).style.width +"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='height...' class='box' onkeyup='change(`height`, "+e.id+")' onkeydown='change(`height`, "+e.id+")' id='height'>"+document.getElementById(e.id).style.height+"</textarea>";
+            document.getElementById("change").innerHTML += `<input placeholder="position" onload="pos(`+e.id+`)" onchange="change('position', `+e.id+`)" onclick="change('position', `+e.id+`)" id="position" class="box" list="cars">
+                                                            <datalist id="cars">
+                                                                <option>absolute</option>
+                                                                <option>relative</option>
+                                                                <option>fixed</option>
+                                                                <option>sticky</option>
+                                                            </datalist>`;
+            document.getElementById("change").innerHTML += "<textarea placeholder='top...' class='box' onkeyup='change(`top`, "+e.id+")' onkeydown='change(`top`, "+e.id+")' id='top'>"+document.getElementById(e.id).style.top+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='right...' class='box' onkeyup='change(`right`, "+e.id+")' onkeydown='change(`right`, "+e.id+")' id='right'>"+document.getElementById(e.id).style.right+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='bottom...' class='box' onkeyup='change(`bottom`, "+e.id+")' onkeydown='change(`bottom`, "+e.id+")' id='bottom'>"+document.getElementById(e.id).style.bottom+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='left...' class='box' onkeyup='change(`left`, "+e.id+")' onkeydown='change(`left`, "+e.id+")' id='left'>"+document.getElementById(e.id).style.left+"</textarea>";
+
+            document.getElementById("change").innerHTML += "<textarea placeholder='padding...' class='box' onkeyup='change(`padding`, "+e.id+")' onkeydown='change(`padding`, "+e.id+")' id='padding'>"+document.getElementById(e.id).style.padding+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='paddingTop...' class='box' onkeyup='change(`padtop`, "+e.id+")' onkeydown='change(`padtop`, "+e.id+")' id='padtop'>"+document.getElementById(e.id).style.paddingTop+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='Padding Right...' class='box' onkeyup='change(`padrig`, "+e.id+")' onkeydown='change(`padrig`, "+e.id+")' id='padrig'>"+document.getElementById(e.id).style.paddingRight+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='PaddingLeft...' class='box' onkeyup='change(`padlef`, "+e.id+")' onkeydown='change(`padlef`, "+e.id+")' id='padlef'>"+document.getElementById(e.id).style.paddingLeft+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='PaddingBottom...' class='box' onkeyup='change(`padbot`, "+e.id+")' onkeydown='change(`padbot`, "+e.id+")' id='padbot'>"+document.getElementById(e.id).style.paddingBottom+"</textarea>";
+            
+            document.getElementById("change").innerHTML += "<textarea placeholder='fontsize...' class='box' onkeyup='change(`size`, "+e.id+")' onkeydown='change(`size`, "+e.id+")' id='fontsize'>"+document.getElementById(e.id).style.fontSize+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='fontfamily...' class='box' onkeyup='change(`family`, "+e.id+")' onkeydown='change(`family`, "+e.id+")' id='fontfamily'>"+document.getElementById(e.id).style.fontFamily+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='border...' class='box' onkeyup='change(`border`, "+e.id+")' onkeydown='change(`border`, "+e.id+")' id='border'>"+document.getElementById(e.id).style.border+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='border-radius...' class='box' onkeyup='change(`borderradius`, "+e.id+")' onkeydown='change(`borderradius`, "+e.id+")' id='borderradiu'>"+document.getElementById(e.id).style.borderRadius+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='cursor...' class='box' onkeyup='change(`cursor`, "+e.id+")' onkeydown='change(`cursor`, "+e.id+")' id='cursor'>"+document.getElementById(e.id).style.cursor+"</textarea>";
+            document.getElementById("change").innerHTML += `<button class="boxbtn" onclick="dohover(`+e.id+`)">Hover</button>`;
+
+
+            /*
+            $("#"+e.id).hover(function(){
+                $(this).css("transition", "0.5s");
+                $(this).css("background-color", "yellow");
+                }, function(){
+                $(this).css("background-color", "");
+            });
+            
+            */
+        }
+    }
+
+    function idmaker(length) {
+        var consonants = 'bcdfghjlmnpqrstv',
+            vowels = 'aeiou',
+            rand = function(limit) {
+                return Math.floor(Math.random()*limit);
+            },
+            i, word='', length = parseInt(length,10),
+            consonants = consonants.split(''),
+            vowels = vowels.split('');
+        for (i=0;i<length/2;i++) {
+            var randConsonant = consonants[rand(consonants.length)],
+                randVowel = vowels[rand(vowels.length)];
+            word += (i===0) ? randConsonant.toUpperCase() : randConsonant;
+            word += i*2<length-1 ? randVowel : '';
+        }
+        return word;
+    }
+
+    function change(what, id){
+        if(what == "text"){
+            id.innerText = document.getElementById("text").value;
+        }else if(what == "color"){
+            id.style.color = document.getElementById("color").value;
+        }else if(what == "back"){
+            id.style.background = document.getElementById("back").value;
+        }else if(what == "backColor"){
+            id.style.backgroundColor = document.getElementById("backColor").value;
+        }else if(what == "width"){
+            id.style.width = document.getElementById("width").value;
+        }else if(what == "height"){
+            id.style.height = document.getElementById("height").value;
+        }else if(what == "size"){
+            id.style.fontSize = document.getElementById("fontsize").value;
+        }else if(what == "family"){
+            id.style.fontFamily = document.getElementById("fontfamily").value;
+        }else if(what == "top"){
+            if(document.getElementById("position").value == ""){
+                alert("Discalmer: Top, Right, Bottom, and Left will not work until position is set")
+            }
+            id.style.top = document.getElementById("top").value;
+        }else if(what == "right"){
+            if(document.getElementById("position").value == ""){
+                alert("Discalmer: Top, Right, Bottom, and Left will not work until position is set")
+            }
+            id.style.right = document.getElementById("right").value;
+        }else if(what == "bottom"){
+            if(document.getElementById("position").value == ""){
+                alert("Discalmer: Top, Right, Bottom, and Left will not work until position is set")
+            }
+            id.style.bottom = document.getElementById("bottom").value;
+        }else if(what == "left"){
+            if(document.getElementById("position").value == ""){
+                alert("Discalmer: Top, Right, Bottom, and Left will not work until position is set")
+            }
+            id.style.left = document.getElementById("left").value;
+        }else if(what == "position"){
+            id.style.position = document.getElementById("position").value;
+        }else if(what == "border"){
+            id.style.border = document.getElementById("border").value;
+        }else if(what == "borderradius"){
+            id.style.borderRadius = document.getElementById("borderradiu").value;
+        }else if(what == "textalign"){
+            id.style.textAlign = document.getElementById("textalign").value;
+        }else if(what == "cursor"){
+            id.style.cursor = document.getElementById("cursor").value;
+        }else if(what == "backs"){
+            id.style.backgroundSize = document.getElementById("backs").value;
+        }else if(what == "padding"){
+            id.style.padding = document.getElementById("padding").value;
+        }else if(what == "padtop"){
+            id.style.paddingTop = document.getElementById("padtop").value;
+        }else if(what == "padrig"){
+            id.style.paddingRight = document.getElementById("padrig").value;
+        }else if(what == "padbot"){
+            id.style.paddingBottom = document.getElementById("padbot").value;
+        }else if(what == "padlef"){
+            id.style.paddingLeft = document.getElementById("padlef").value;
+        }
+    }
+        
+
+    function pos(id){
+        id.style.position = "relative";
+        //alert("hi")
+    }
+
+
+        function h1(){
+            var name = prompt("Text", "Text...");
+            var id = idmaker(12);
+            document.getElementById("canvas").innerHTML += "<h1 id="+ id + ">" + name + "</h1>";
+        }
+
+
+    function dohover(id){
+        
+        //get input from user of what he wants to do
+        //implement it and then on off hover chnage everthing back to what is was
+        document.body.innerHTML += `<div id="hov" class="smoke-screen">
+            
+            <button onclick="document.getElementById('hov').remove()" style="cursor: pointer; opactiy: 150%; background-color: dodgerblue; border: solid whitesmoke; border-radius: 10px; position: absolute; bottom: 0%; right: 0%; height: 5%; width: 12.5%;">Done</button>
+            <textarea id="hovtransition" onkeyup="hov('transition', `+id.id+`)" onkeydown="hov('transition', `+id.id+`)" class="boxx" placeholder="Transition"></textarea>
+            <textarea id="hovback" onkeyup="hov('background', `+id.id+`)" onkeydown="hov('background', `+id.id+`)" class="boxx" placeholder="background"></textarea>
+            <textarea id="hovbackc" onkeyup="hov('backgroundColor', `+id.id+`)" onkeydown="hov('backgroundColor', `+id.id+`)" class="boxx" placeholder="backgroundColor"></textarea>
+            <textarea id="=hovcolor" onkeyup="hov('color', `+id.id+`)" onkeydown="hov('color', `+id.id+`)" class="boxx" placeholder="Color"></textarea>
+
+
+            </div>`;
+    }
+
+
+    function hov(what, to){
+        var hi = to.id;
+        if(what == "background"){
+            var ch = isColor(document.getElementById("hovback").value)
+            if(ch == true){
+                val = document.getElementById("hovback").value;
+                document.getElementById("canvas").innerHTML += `
+                <style>
+                    #`+hi+`:hover{
+                        background: `+val+` !important;
+                    }
+                </style>`;
+            }
+        }else if(what == "backgroundColor"){
+            var ch = isColor(document.getElementById("hovbackc").value)
+            if(ch == true){
+                val = document.getElementById("hovbackc").value;
+                document.getElementById("canvas").innerHTML += `
+                <style>
+                    #`+hi+`:hover{
+                        background-color: `+val+` !important;
+                    }
+                </style>`;
+            }
+        }else if(what == "transition"){
+            val = document.getElementById("hovtransition").value;
+            if(val.includes("s") == true){
+                document.getElementById("canvas").innerHTML += `
+                <style>
+                    #`+hi+`:hover{
+                        transition: `+val+` !important;
+                    }
+                </style>`;
+            }
+        }else if(what == "color"){
+            var ch = isColor(document.getElementById("hovcolor").value)
+            if(ch == true){
+                val = document.getElementById("hovcolor").value;
+                document.getElementById("canvas").innerHTML += `
+                <style>
+                    #`+hi+`:hover{
+                        color: `+val+` !important;
+                    }
+                </style>`;
+            }
+        }
+    }
+
+
+
+
+
+    function isColor(color){
+        document.getElementById("testing").innerHTML = `<p id="mhm" style="color: `+color+`;">hi</p>`;
+        if(document.getElementById("mhm").style.color == color && document.getElementById("mhm").style.color != ""){
+            console.log("valid color")
+            return true
+        }else{
+            console.log("invalid color")
+            return false
+        }
+    }
+    
+    </script>
+</body>
+</html>
