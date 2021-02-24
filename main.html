@@ -273,7 +273,8 @@
             <textarea id="hovtransition" onkeyup="hov('transition', `+id.id+`)" onkeydown="hov('transition', `+id.id+`)" class="boxx" placeholder="Transition"></textarea>
             <textarea id="hovback" onkeyup="hov('background', `+id.id+`)" onkeydown="hov('background', `+id.id+`)" class="boxx" placeholder="background"></textarea>
             <textarea id="hovbackc" onkeyup="hov('backgroundColor', `+id.id+`)" onkeydown="hov('backgroundColor', `+id.id+`)" class="boxx" placeholder="backgroundColor"></textarea>
-            <textarea id="=hovcolor" onkeyup="hov('color', `+id.id+`)" onkeydown="hov('color', `+id.id+`)" class="boxx" placeholder="Color"></textarea>
+            <textarea id="hovcolor" onkeyup="hov('color', `+id.id+`)" onkeydown="hov('color', `+id.id+`)" class="boxx" placeholder="Color"></textarea>
+            <textarea id="hovborder" onkeyup="hov('border', `+id.id+`)" onkeydown="hov('border', `+id.id+`)" class="boxx" placeholder="Border"></textarea>
 
 
             </div>`;
@@ -325,6 +326,17 @@
                     }
                 </style>`;
             }
+        }else if(what == "border"){
+            val = document.getElementById("hovborder").value;
+            var ch = val.includes("solid");
+            if(ch == true){
+                document.getElementById("canvas").innerHTML += `
+                <style>
+                    #`+hi+`:hover{
+                        border: `+val+` !important;
+                    }
+                </style>`;
+            }
         }
     }
 
@@ -336,10 +348,10 @@
         document.getElementById("testing").innerHTML = `<p id="mhm" style="color: `+color+`;">hi</p>`;
         if(document.getElementById("mhm").style.color == color && document.getElementById("mhm").style.color != ""){
             console.log("valid color")
-            return true
+            return true;
         }else{
             console.log("invalid color")
-            return false
+            return false;
         }
     }
     
