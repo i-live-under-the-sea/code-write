@@ -60,6 +60,7 @@
             background: transparent;
             color: white;
             cursor: pointer;
+            margin-bottom: 5px;
         }
 
         .box{
@@ -108,15 +109,108 @@
 
     <div class="tag-bar"><span style="cursor: pointer; font-size: 75%;font-family: arial; color: whitesmoke;">Tags <i class="fa fa-caret-down"></i><hr></span>
         
+        <button onclick="pgtitle()" class="drag">Title</button>
+
         <button onclick="h1()" class="drag">H1</button>
+
+        <button onclick="headers('h2')" class="drag">H2</button>
+
+        <button onclick="headers('h3')" class="drag">H3</button>
+
+        <button onclick="headers('h4')" class="drag">H4</button>
+
+        <button onclick="headers('h5')" class="drag">H5</button>
+
+        <button onclick="headers('h6')" class="drag">H6</button>
+
+        <button onclick="headers('p')" class="drag">P</button>
             
-        
-    
+        <button onclick="br()" class="drag">BR</button>
+
+        <button onclick="hr()" class="drag">HR</button>
+
+        <button onclick="a()" class="drag">LINK - A</button>
+
+        <button onclick="img()" class="drag">Image</button>
+
+        <button onclick="embed('embed')" class="drag">Embed</button>
+
+        <button onclick="embed('iframe')" class="drag">Iframe</button>
+
+        <button onclick="yt()" class="drag">YouTube</button>
+
     </div>
 
     <div id="canvas" class="main"></div>
 
     <script>
+
+    function yt(){
+        var src = prompt("YouTube Link");
+        var url = new URL(src);
+        var get = url.searchParams.get("v");
+        var fin = "https://youtube.com/embed/" + get;
+        if(src !==  null){
+            var id = idmaker(12);
+            document.getElementById("canvas").innerHTML += '<iframe width="560" height="315" src="'+fin+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        }
+    }
+
+    function embed(kind){
+        var src = prompt("Embed Link");
+        if(src !==  null){
+            var id = idmaker(12);
+            document.getElementById("canvas").innerHTML += "<"+kind+" id="+id+" src='"+src+"'>";
+        }
+    }
+
+
+    function img(){
+        var src = prompt("Img Link?", "https://wallpaperaccess.com/full/636909.jpg");
+        if(src !==  null){
+            var id = idmaker(12);
+            document.getElementById("canvas").innerHTML += "<img id="+id+" src='"+src+"'>";
+        }
+    }
+
+    function a(){
+        var link = prompt("Link", "https://example.com/example.html")
+        var text = prompt("Text", "This link goes to https://example.com/example.html")
+        var get = confirm("Would You Like To Open This Link In A New Tab?");
+        var id = idmaker(12);
+        if(get == true){
+            document.getElementById("canvas").innerHTML += "<a href='"+ link +"' target='_blank' id='"+ id +"'>"+ text +"</a>";
+        }else{
+            document.getElementById("canvas").innerHTML += "<a href='"+ link +"' id='"+ id +"'>"+ text +"</a>";
+        }
+    }
+
+    function br(){
+        var id = idmaker(12);
+        document.getElementById("canvas").innerHTML += "<br id="+ id + ">";
+    }
+
+    function hr(){
+        var id = idmaker(12);
+        document.getElementById("canvas").innerHTML += "<hr id="+ id + ">";
+    }
+
+    
+    window.onbeforeunload = function() { 
+        return "You Have Unsaved Changes";
+    };
+
+    function headers(kind){
+        var name = prompt("Text", "Text...");
+        var id = idmaker(12);
+        document.getElementById("canvas").innerHTML += "<"+ kind +" id="+ id + ">" + name + "</"+kind+">";
+    }
+
+    function pgtitle(){
+        var name = prompt("Title", "Title...");
+        var id = idmaker(12);
+        document.getElementById("canvas").innerHTML += "<title id="+ id + ">" + name + "</title>";
+    }
 
     function select(e){
         e = e || window.event;
