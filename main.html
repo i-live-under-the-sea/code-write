@@ -63,6 +63,16 @@
             margin-bottom: 5px;
         }
 
+        .dragg{
+            width: 260px;
+            height: 50%;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
         .box{
             color: white;
             vertical-align: middle;
@@ -100,6 +110,32 @@
             border: 1px solid white;
             cursor: pointer;
         }
+
+        .savebtn{
+            cursor: pointer;
+            background-color: rgb(17, 65, 112);
+            color: rgb(226, 226, 17);
+            position: absolute;
+            bottom: 2.5%;
+            border: solid rgb(226, 226, 17);
+            border-radius: 10px;
+            left: 12.5%;
+            width: 75%;
+            height: 4%;
+        }
+
+        .rmbtn{
+            cursor: pointer;
+            background-color: rgb(17, 65, 112);
+            color: rgb(226, 226, 17);
+            position: absolute;
+            bottom: 7%;
+            border: solid rgb(226, 226, 17);
+            border-radius: 10px;
+            left: 12.5%;
+            width: 75%;
+            height: 4%;
+        }
     </style>
 </head>
 <body onclick="select(this.id)">
@@ -107,7 +143,7 @@
 
     <div id="testing" style="display: none;"></div>
 
-    <div class="tag-bar"><span style="cursor: pointer; font-size: 75%;font-family: arial; color: whitesmoke;">Tags <i class="fa fa-caret-down"></i><hr></span>
+    <div id="tagbar" class="tag-bar"><span style="cursor: pointer; font-size: 75%;font-family: arial; color: whitesmoke;">Tags <i class="fa fa-caret-down"></i><hr></span>
         
         <button onclick="pgtitle()" class="drag">Title</button>
 
@@ -129,7 +165,7 @@
 
         <button onclick="hr()" class="drag">HR</button>
 
-        <button onclick="a()" class="drag">LINK - A</button>
+        <button onclick="a()" class="drag">LINK - Anchor</button>
 
         <button onclick="img()" class="drag">Image</button>
 
@@ -139,11 +175,70 @@
 
         <button onclick="yt()" class="drag">YouTube</button>
 
+        <button onclick="mkinput()" class="drag">Input</button>
+
+        <button onclick="textarea()" class="drag">Textarea</button>
+        
+        <button onclick="div()" class="drag">Div</button>
+
+        <button class="savebtn" onclick="genarate()">Save</button>
+
     </div>
 
     <div id="canvas" class="main"></div>
 
     <script>
+
+    function rm(id){
+        var check = confirm("Are You Sure You Would Like To Take This Action");
+        if(check == true){
+            document.getElementById(id).remove()
+        }
+    }
+
+    function genarate(){
+        download("code.html", document.getElementById("canvas").innerHTML)
+    }
+
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+
+    function mkinput(){
+        var value = prompt("Value?");
+        var type = prompt("Type?", "Text, submit");
+        var id = idmaker(12);
+        if(value != null && type != null){
+            document.getElementById("canvas").innerHTML += "<input id="+id+" type="+type+" value="+value+">";
+        }
+    }
+
+    function textarea(){
+        var placeholder = prompt("Placeholder?");
+        var text = prompt("Text?");
+        if(placeholder != null && text != null){
+            var id = idmaker(12);
+            document.getElementById("canvas").innerHTML += "<textarea id="+id+" placeholder="+placeholder+">"+text+"</textarea>";
+        }else{
+            var id = idmaker(12);
+            document.getElementById("canvas").innerHTML += "<textarea id="+id+" placeholder="+placeholder+"></textarea>";
+        }
+    }
+
+    function div(){
+        var id = idmaker(16);
+        document.getElementById("canvas").innerHTML += "<div style='border: solid gray; width: 50px; height: 50px; background-color: black;' id="+id+"></div>";
+    }
 
     function yt(){
         var src = prompt("YouTube Link");
@@ -249,7 +344,9 @@
             document.getElementById("change").innerHTML += "<textarea placeholder='border-radius...' class='box' onkeyup='change(`borderradius`, "+e.id+")' onkeydown='change(`borderradius`, "+e.id+")' id='borderradiu'>"+document.getElementById(e.id).style.borderRadius+"</textarea>";
             document.getElementById("change").innerHTML += "<textarea placeholder='cursor...' class='box' onkeyup='change(`cursor`, "+e.id+")' onkeydown='change(`cursor`, "+e.id+")' id='cursor'>"+document.getElementById(e.id).style.cursor+"</textarea>";
             document.getElementById("change").innerHTML += `<button class="boxbtn" onclick="dohover(`+e.id+`)">Hover</button>`;
+            document.getElementById("change").innerHTML += "<textarea placeholder='Placeholder...' class='box' onkeyup='change(`place`, "+e.id+")' onkeydown='change(`place`, "+e.id+")' id='place'>"+document.getElementById(e.id).placeholder+"</textarea>";
 
+            document.getElementById("tagbar").innerHTML +=  `<button class="rmbtn" onclick="rm('`+e.id+`')">Remove</button>`;
 
             /*
             $("#"+e.id).hover(function(){
@@ -260,7 +357,166 @@
             });
             
             */
+        }else if(e.id.length == 16){
+            document.getElementById("change").innerHTML = "";
+            document.getElementById("tagbar").innerHTML +=  `<button class="rmbtn" onclick="rm('`+e.id+`')">Remove</button>`;
+            document.getElementById("change").innerHTML += "<textarea placeholder='background...' class='box' onkeyup='change(`back`, "+e.id+")' onkeydown='change(`back`, "+e.id+")' id='back'>"+ document.getElementById(e.id).style.background + "</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='backgroundSize...' class='box' onkeyup='change(`backs`, "+e.id+")' onkeydown='change(`backs`, "+e.id+")' id='backs'>"+ document.getElementById(e.id).style.backgroundSize + "</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='backgroundColor...' class='box' onkeyup='change(`backColor`, "+e.id+")' onkeydown='change(`backColor`, "+e.id+")' id='backColor'>"+ document.getElementById(e.id).style.backgroundColor + "</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='color...' class='box' onkeyup='change(`color`, "+e.id+")' onkeydown='change(`color`, "+e.id+")' id='color'>"+ document.getElementById(e.id).style.color +"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='Text...' class='box' onkeyup='change(`text`, "+e.id+")' onkeydown='change(`text`, "+e.id+")' id='text'>"+document.getElementById(e.id).innerText+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='textAlign...' class='box' onkeyup='change(`textalign`, "+e.id+")' onkeydown='change(`textalign`, "+e.id+")' id='textalign'>"+document.getElementById(e.id).style.textAlign+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='width...' class='box' onkeyup='change(`width`, "+e.id+")' onkeydown='change(`width`, "+e.id+")' id='width'>"+ document.getElementById(e.id).style.width +"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='height...' class='box' onkeyup='change(`height`, "+e.id+")' onkeydown='change(`height`, "+e.id+")' id='height'>"+document.getElementById(e.id).style.height+"</textarea>";
+            document.getElementById("change").innerHTML += `<input placeholder="position" onload="pos(`+e.id+`)" onchange="change('position', `+e.id+`)" onclick="change('position', `+e.id+`)" id="position" class="box" list="cars">
+                                                            <datalist id="cars">
+                                                                <option>absolute</option>
+                                                                <option>relative</option>
+                                                                <option>fixed</option>
+                                                                <option>sticky</option>
+                                                            </datalist>`;
+            document.getElementById("change").innerHTML += "<textarea placeholder='top...' class='box' onkeyup='change(`top`, "+e.id+")' onkeydown='change(`top`, "+e.id+")' id='top'>"+document.getElementById(e.id).style.top+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='right...' class='box' onkeyup='change(`right`, "+e.id+")' onkeydown='change(`right`, "+e.id+")' id='right'>"+document.getElementById(e.id).style.right+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='bottom...' class='box' onkeyup='change(`bottom`, "+e.id+")' onkeydown='change(`bottom`, "+e.id+")' id='bottom'>"+document.getElementById(e.id).style.bottom+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='left...' class='box' onkeyup='change(`left`, "+e.id+")' onkeydown='change(`left`, "+e.id+")' id='left'>"+document.getElementById(e.id).style.left+"</textarea>";
+
+            document.getElementById("change").innerHTML += "<textarea placeholder='padding...' class='box' onkeyup='change(`padding`, "+e.id+")' onkeydown='change(`padding`, "+e.id+")' id='padding'>"+document.getElementById(e.id).style.padding+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='paddingTop...' class='box' onkeyup='change(`padtop`, "+e.id+")' onkeydown='change(`padtop`, "+e.id+")' id='padtop'>"+document.getElementById(e.id).style.paddingTop+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='Padding Right...' class='box' onkeyup='change(`padrig`, "+e.id+")' onkeydown='change(`padrig`, "+e.id+")' id='padrig'>"+document.getElementById(e.id).style.paddingRight+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='PaddingLeft...' class='box' onkeyup='change(`padlef`, "+e.id+")' onkeydown='change(`padlef`, "+e.id+")' id='padlef'>"+document.getElementById(e.id).style.paddingLeft+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='PaddingBottom...' class='box' onkeyup='change(`padbot`, "+e.id+")' onkeydown='change(`padbot`, "+e.id+")' id='padbot'>"+document.getElementById(e.id).style.paddingBottom+"</textarea>";
+            
+            document.getElementById("change").innerHTML += "<textarea placeholder='fontsize...' class='box' onkeyup='change(`size`, "+e.id+")' onkeydown='change(`size`, "+e.id+")' id='fontsize'>"+document.getElementById(e.id).style.fontSize+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='fontfamily...' class='box' onkeyup='change(`family`, "+e.id+")' onkeydown='change(`family`, "+e.id+")' id='fontfamily'>"+document.getElementById(e.id).style.fontFamily+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='border...' class='box' onkeyup='change(`border`, "+e.id+")' onkeydown='change(`border`, "+e.id+")' id='border'>"+document.getElementById(e.id).style.border+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='border-radius...' class='box' onkeyup='change(`borderradius`, "+e.id+")' onkeydown='change(`borderradius`, "+e.id+")' id='borderradiu'>"+document.getElementById(e.id).style.borderRadius+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='cursor...' class='box' onkeyup='change(`cursor`, "+e.id+")' onkeydown='change(`cursor`, "+e.id+")' id='cursor'>"+document.getElementById(e.id).style.cursor+"</textarea>";
+            document.getElementById("change").innerHTML += `<button class="boxbtn" onclick="dohover(`+e.id+`)">Hover</button>`;
+            document.getElementById("change").innerHTML += "<textarea placeholder='Placeholder...' class='box' onkeyup='change(`place`, "+e.id+")' onkeydown='change(`place`, "+e.id+")' id='place'>"+document.getElementById(e.id).placeholder+"</textarea>";
+            //document.getElementById("change").innerHTML += "<p style='margin-bottom: 0px; display: none;' id='currentid'>" + e.id + "<p>";
+            document.getElementById("change").innerHTML += "<p style='margin: 0;'></p>"
+            document.getElementById("change").innerHTML += `
+                <!--<label style="font-weight: normal; font-size: 100%; padding-left: 10px; text-align: left; font-family: arial; color: white;">DIV: </label>-->
+
+
+                <button onclick="divheader('h1', '`+e.id+`')" class="dragg">H1</button>
+
+                <button onclick="divheader('h2', '`+e.id+`')" class="dragg">H2</button>
+
+                <button onclick="divheader('h3', '`+e.id+`')" class="dragg">H3</button>
+
+                <button onclick="divheader('h4', '`+e.id+`')" class="dragg">H4</button>
+
+                <button onclick="divheader('h5', '`+e.id+`')" class="dragg">H5</button>
+
+                <button onclick="divheader('h6', '`+e.id+`')" class="dragg">H6</button>
+
+                <button onclick="divheader('p', '`+e.id+`')" class="dragg">P</button>
+                    
+                <button onclick="divbr('`+e.id+`')" class="dragg">BR</button>
+
+                <button onclick="divhr('`+e.id+`')" class="dragg">HR</button>
+
+                <button onclick="divlink('`+e.id+`')" class="dragg">LINK - Anchor</button>
+
+                <button onclick="divimg('`+e.id+`')" class="dragg">Image</button>
+
+                <button onclick="divembed('embed', '`+e.id+`')" class="dragg">Embed</button>
+
+                <button onclick="divembed('iframe', '`+e.id+`')" class="dragg">Iframe</button>
+
+                <button onclick="divyt('`+e.id+`')" class="dragg">YouTube</button>
+
+                <button onclick="divmkinput('`+e.id+`')" class="dragg">Input</button>
+
+                <button onclick="divtextarea('`+e.id+`')" class="dragg">Textarea</button>
+                
+                <button onclick="divdiv('`+e.id+`')" class="dragg">Div</button>
+            `;
         }
+    }
+
+    function divdiv(hi){
+        var id = idmaker(16);
+        document.getElementById(hi).innerHTML += "<div style='border: solid gray; width: 50px; height: 50px; background-color: black;' id="+id+"></div>";
+    }
+
+    function divmkinput(hi){
+        var value = prompt("Value?");
+        var type = prompt("Type?", "Text, submit");
+        var id = idmaker(12);
+        if(value != null && type != null){
+            document.getElementById(hi).innerHTML += "<input id="+id+" type="+type+" value="+value+">";
+        }
+    }
+
+    function divtextarea(hi){
+        var placeholder = prompt("Placeholder?");
+        var text = prompt("Text?");
+        if(placeholder != null && text != null){
+            var id = idmaker(12);
+            document.getElementById(hi).innerHTML += "<textarea id="+id+" placeholder="+placeholder+">"+text+"</textarea>";
+        }else{
+            var id = idmaker(12);
+            document.getElementById(hi).innerHTML += "<textarea id="+id+" placeholder="+placeholder+"></textarea>";
+        }
+    }
+
+    function divyt(hi){
+        var src = prompt("YouTube Link");
+        var url = new URL(src);
+        var get = url.searchParams.get("v");
+        var fin = "https://youtube.com/embed/" + get;
+        if(src !==  null){
+            var id = idmaker(12);
+            document.getElementById(hi).innerHTML += '<iframe width="560" height="315" src="'+fin+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        }
+    }
+
+
+    function divembed(kind, hi){
+        var src = prompt("Embed Link");
+        if(src !==  null){
+            var id = idmaker(12);
+            document.getElementById(hi).innerHTML += "<"+kind+" id="+id+" src='"+src+"'>";
+        }
+    }
+
+    function divimg(hi){
+        var src = prompt("Img Link?", "https://wallpaperaccess.com/full/636909.jpg");
+        if(src !==  null){
+            var id = idmaker(12);
+            document.getElementById(hi).innerHTML += "<img id="+id+" src='"+src+"'>";
+        }
+    }
+
+    function divlink(hi){
+        var link = prompt("Link", "https://example.com/example.html")
+        var text = prompt("Text", "This link goes to https://example.com/example.html")
+        var get = confirm("Would You Like To Open This Link In A New Tab?");
+        var id = idmaker(12);
+        if(get == true){
+            document.getElementById(hi).innerHTML += "<a href='"+ link +"' target='_blank' id='"+ id +"'>"+ text +"</a>";
+        }else{
+            document.getElementById(hi).innerHTML += "<a href='"+ link +"' id='"+ id +"'>"+ text +"</a>";
+        }
+    }
+
+    function divbr(hi){
+        var id = idmaker(12);
+        document.getElementById(hi).innerHTML += "<br id="+ id + ">";
+    }
+
+    function divhr(hi){
+        var id = idmaker(12);
+        document.getElementById(hi).innerHTML += "<hr id="+ id + ">";
+    }
+
+
+    function divheader(which, myid){
+        var name = prompt("Text", "Text...");
+        var id = idmaker(12);
+        document.getElementById(myid).innerHTML += "<"+ which +" id="+ id + ">" + name + "</"+which+">";
     }
 
     function idmaker(length) {
@@ -340,6 +596,8 @@
             id.style.paddingBottom = document.getElementById("padbot").value;
         }else if(what == "padlef"){
             id.style.paddingLeft = document.getElementById("padlef").value;
+        }else if(what == "place"){
+            id.placeholder = document.getElementById("place").value;
         }
     }
         
