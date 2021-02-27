@@ -136,9 +136,25 @@
             width: 75%;
             height: 4%;
         }
+
+        .js{
+            background-color: rgb(233, 233, 21);
+            color: black;
+            padding-top: 15px;
+            padding-left: 15px;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 1%;
+            right: 1%;
+        }
     </style>
 </head>
 <body onclick="select(this.id)">
+
     <div id="change" class="top-bar"></div>
 
     <div id="testing" style="display: none;"></div>
@@ -183,11 +199,34 @@
 
         <button class="savebtn" onclick="genarate()">Save</button>
 
+
     </div>
 
     <div id="canvas" class="main"></div>
 
     <script>
+
+    function hid(){
+        document.getElementById('jsbar').style.width = '0%';
+        setTimeout(function(){ document.getElementById('jsbar').remove() }, 200);
+    }
+
+    function js(id){
+        document.body.innerHTML += `
+        
+        <div id="jsbar" class="jsbar" style="cursor: pointer; transition: all .2s linear; position: absolute; right: 0%; bottom: 0%; width: 0%; height: 100%; background-color: rgb(40, 40, 40);">
+            <button onclick="hid()" style="cursor: pointer; font-weight: normal; background: transparent; color: white; border: none; font-size: 150%; position: absolute; top: 0%; right: 0%;">X</button> 
+            
+            <div style="position: absolute; left: 45%; height: 100%; width: 1%; background-color: white;"></div>
+
+            <p style="color: white; font-family: arial; position: absolute; top: 1%; right: 10%;">BLOCKS <i class="fa fa-caret-down"></i></p>
+            <p style="color: white; font-family: arial; position: absolute; top: 1%; left: 10%;">CODE <i class="fa fa-caret-down"></i></p>         
+            <div style="background-color: white; position: absolute; top: 8%; left: 0%; width: 100%; height: 0.5%;"></div>
+        </div>
+        `;
+
+        document.getElementById("jsbar").style.width = "20%";
+    }
 
     function rm(id){
         var check = confirm("Are You Sure You Would Like To Take This Action");
@@ -312,6 +351,13 @@
         e = e.target || e.srcElement;
         if(e.id.length == 12){
             document.getElementById("change").innerHTML = "<p style='display: none;' id='currentid'>" + e.id + "<p>";
+            var js = document.getElementById("js");
+            if(js != undefined){
+                js.remove();
+                document.body.innerHTML += '<button id="js" onclick="js('+e.id+')" class="js">JS</button>"';
+            }else{
+                document.body.innerHTML += '<button id="js" onclick="js('+e.id+')" class="js">JS</button>"';
+            }
             document.getElementById("change").innerHTML += "<textarea placeholder='background...' class='box' onkeyup='change(`back`, "+e.id+")' onkeydown='change(`back`, "+e.id+")' id='back'>"+ document.getElementById(e.id).style.background + "</textarea>";
             document.getElementById("change").innerHTML += "<textarea placeholder='backgroundSize...' class='box' onkeyup='change(`backs`, "+e.id+")' onkeydown='change(`backs`, "+e.id+")' id='backs'>"+ document.getElementById(e.id).style.backgroundSize + "</textarea>";
             document.getElementById("change").innerHTML += "<textarea placeholder='backgroundColor...' class='box' onkeyup='change(`backColor`, "+e.id+")' onkeydown='change(`backColor`, "+e.id+")' id='backColor'>"+ document.getElementById(e.id).style.backgroundColor + "</textarea>";
@@ -358,6 +404,13 @@
             
             */
         }else if(e.id.length == 16){
+            var js = document.getElementById("js");
+            if(js != undefined){
+                js.remove();
+                document.body.innerHTML += '<button id="js" onclick="js('+e.id+')" class="js">JS</button>"';
+            }else{
+                document.body.innerHTML += '<button id="js" onclick="js('+e.id+')" class="js">JS</button>"';
+            }
             document.getElementById("change").innerHTML = "";
             document.getElementById("tagbar").innerHTML +=  `<button class="rmbtn" onclick="rm('`+e.id+`')">Remove</button>`;
             document.getElementById("change").innerHTML += "<textarea placeholder='background...' class='box' onkeyup='change(`back`, "+e.id+")' onkeydown='change(`back`, "+e.id+")' id='back'>"+ document.getElementById(e.id).style.background + "</textarea>";
