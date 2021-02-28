@@ -8,6 +8,7 @@
     <link rel="icon" href="logo.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+    <script src="main.js"></script>
     <style>
         body{
             background-color: rgb(34, 35, 36);
@@ -209,6 +210,11 @@
 
     <script>
 
+    function savejs(myid){
+        id = document.getElementById(myid);
+        script(id);
+    }
+
     function mkalert(){
         var val = prompt("what would you like to say in the alert")
         document.getElementById("jseditor").value += `alert("`+val+`")\n`;
@@ -239,7 +245,7 @@
         }
     }
 
-    function js(id){
+    function js(myid){
         document.body.innerHTML += `
         
         <div id="jsbar" class="jsbar" style="cursor: pointer; transition: all .2s linear; position: absolute; right: 0%; bottom: 0%; width: 0%; height: 100%; background-color: rgb(40, 40, 40);">
@@ -258,6 +264,8 @@
             <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 13.5%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkprompt()">prompt</button>
 
             <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 17%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkconfirm()">Confirm</button>
+
+            <button style="width: 40%; height: 5%; color: white; background-color: dodgerblue; border: solid white 1px; position: absolute; bottom: 1%; right: 1%;" onclick="savejs('`+myid.id+`')">Save</button>
 
         </div>
         `;
