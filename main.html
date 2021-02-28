@@ -197,6 +197,8 @@
         <button onclick="mkinput()" class="drag">Input</button>
 
         <button onclick="textarea()" class="drag">Textarea</button>
+
+        <button onclick="mkbtn()" class="drag">Button</button>
         
         <button onclick="div()" class="drag">Div</button>
 
@@ -309,6 +311,12 @@
         if(value != null && type != null){
             document.getElementById("canvas").innerHTML += "<input id="+id+" type="+type+" value="+value+">";
         }
+    }
+
+    function mkbtn(){
+        var text = prompt("Text?");
+        var id = idmaker(12);
+        document.getElementById("canvas").innerHTML += "<button id="+id+">"+text+"</button>";
     }
 
     function textarea(){
@@ -440,6 +448,7 @@
             document.getElementById("change").innerHTML += "<textarea placeholder='cursor...' class='box' onkeyup='change(`cursor`, "+e.id+")' onkeydown='change(`cursor`, "+e.id+")' id='cursor'>"+document.getElementById(e.id).style.cursor+"</textarea>";
             document.getElementById("change").innerHTML += `<button class="boxbtn" onclick="dohover(`+e.id+`)">Hover</button>`;
             document.getElementById("change").innerHTML += "<textarea placeholder='Placeholder...' class='box' onkeyup='change(`place`, "+e.id+")' onkeydown='change(`place`, "+e.id+")' id='place'>"+document.getElementById(e.id).placeholder+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='Opacity...' class='box' onkeyup='change(`op`, "+e.id+")' onkeydown='change(`op`, "+e.id+")' id='opac'>"+document.getElementById(e.id).style.opacity+"</textarea>";
 
             document.getElementById("tagbar").innerHTML +=  `<button class="rmbtn" onclick="rm('`+e.id+`')">Remove</button>`;
 
@@ -495,6 +504,7 @@
             document.getElementById("change").innerHTML += "<textarea placeholder='cursor...' class='box' onkeyup='change(`cursor`, "+e.id+")' onkeydown='change(`cursor`, "+e.id+")' id='cursor'>"+document.getElementById(e.id).style.cursor+"</textarea>";
             document.getElementById("change").innerHTML += `<button class="boxbtn" onclick="dohover(`+e.id+`)">Hover</button>`;
             document.getElementById("change").innerHTML += "<textarea placeholder='Placeholder...' class='box' onkeyup='change(`place`, "+e.id+")' onkeydown='change(`place`, "+e.id+")' id='place'>"+document.getElementById(e.id).placeholder+"</textarea>";
+            document.getElementById("change").innerHTML += "<textarea placeholder='Opacity...' class='box' onkeyup='change(`op`, "+e.id+")' onkeydown='change(`op`, "+e.id+")' id='opac'>"+document.getElementById(e.id).style.opacity+"</textarea>";
             //document.getElementById("change").innerHTML += "<p style='margin-bottom: 0px; display: none;' id='currentid'>" + e.id + "<p>";
             document.getElementById("change").innerHTML += "<p style='margin: 0;'></p>"
             document.getElementById("change").innerHTML += `
@@ -532,6 +542,8 @@
                 <button onclick="divmkinput('`+e.id+`')" class="dragg">Input</button>
 
                 <button onclick="divtextarea('`+e.id+`')" class="dragg">Textarea</button>
+
+                <button onclick="divmkbtn('`+e.id+`')" class="dragg">Button</button>
                 
                 <button onclick="divdiv('`+e.id+`')" class="dragg">Div</button>
             `;
@@ -541,6 +553,12 @@
     function divdiv(hi){
         var id = idmaker(16);
         document.getElementById(hi).innerHTML += "<div style='border: solid gray; width: 50px; height: 50px; background-color: black;' id="+id+"></div>";
+    }
+
+    function divmkbtn(hi){
+        var text = prompt("Text?");
+        var id = idmaker(12);
+        document.getElementById(hi).innerHTML += "<button id="+id+">"+text+"</button>";
     }
 
     function divmkinput(hi){
@@ -700,6 +718,8 @@
             id.style.paddingLeft = document.getElementById("padlef").value;
         }else if(what == "place"){
             id.placeholder = document.getElementById("place").value;
+        }else if(what == "op"){
+            id.style.opacity = document.getElementById("opac").value;
         }
     }
         
