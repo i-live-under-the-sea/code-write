@@ -223,6 +223,24 @@
         
     }
 
+    function mkconsole(){
+        var val = prompt("what would you like to say in the console")
+        document.getElementById("jseditor").value += `console.log("`+val+`")\n`;
+        
+    }
+
+    function mkconsolew(){
+        var val = prompt("what would you like to say in the console")
+        document.getElementById("jseditor").value += `console.warn("`+val+`")\n`;
+        
+    }
+
+    function mkconsolee(){
+        var val = prompt("what would you like to say in the console")
+        document.getElementById("jseditor").value += `console.error("`+val+`")\n`;
+        
+    }
+
     function mkprompt(){
         var val = prompt("what would you like to say in the prompt")
         document.getElementById("jseditor").value += `prompt("`+val+`")\n`;
@@ -266,6 +284,12 @@
             <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 13.5%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkprompt()">prompt</button>
 
             <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 17%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkconfirm()">Confirm</button>
+
+            <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 21.5%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkconsole()">console.log</button>
+
+            <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 21.5%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkconsolew()">console.warn</button>
+
+            <button style="border: solid white 1px; width: 25%; height: 3%; color: white; position: absolute; top: 21.5%; right: 12.5%; background-color: black; cursor: pointer;" onclick="mkconsolee()">console.error</button>
 
             <button style="width: 40%; height: 5%; color: white; background-color: dodgerblue; border: solid white 1px; position: absolute; bottom: 1%; right: 1%;" onclick="savejs('`+myid.id+`')">Save</button>
 
